@@ -28,6 +28,12 @@
     .meta-banner b{color:var(--ochre)}
     .meta-banner a{color:var(--bone)}
 
+    /* ===== promotion bar (real website element) ===== */
+    .promo-bar{background:var(--ochre);color:var(--umber);font-family:var(--sans);font-size:12.5px;font-weight:500;
+      letter-spacing:.03em;padding:10px 20px;text-align:center;position:sticky;top:0;z-index:200}
+    .promo-bar b{font-weight:700}
+    .promo-bar a{color:var(--umber);text-decoration:underline;font-weight:700;white-space:nowrap}
+
     /* ============================================================= SITE NAV */
     .site{max-width:100%;}
     .nav{position:sticky;top:39px;z-index:100;background:rgba(244,239,230,.86);backdrop-filter:blur(10px);
@@ -236,9 +242,9 @@
 </head>
 <body data-fb-key="website" data-fb-page="Website Home — Breath with Diana" data-fb-email="d.blaecker@gmail.com">
 
-<!-- ============================ REVIEW WRAPPER (not part of the site) ============================ -->
-<div class="meta-banner">
-  <b>DRAFT v1.</b> Your homepage is below. Scroll past the footer for <a href="#review"><b>3 short things to review</b></a> (accounts, your brand, logos). Photos are Diana's own (draft picks — easy to swap).
+<!-- ============================ PROMOTION BAR (real website element) ============================ -->
+<div class="promo-bar">
+  ✦&nbsp;&nbsp;<b>This month:</b> 30% off your first private rebirthing session — book by <b>[BOOK-BY DATE]</b>.&nbsp;&nbsp;<a href="#book">Book now →</a>
 </div>
 
 <!-- ============================================================= THE WEBSITE STARTS HERE ========= -->
@@ -461,31 +467,12 @@
   <div class="wrap-narrow">
     <div class="eyebrow">For you, Diana — notes &amp; a few questions</div>
     <h2 class="rz-h">This part isn't the website.</h2>
-    <p class="rz-lead">Everything above is your homepage draft. This section is just for us: first a quick word on <b>why the page is built this way</b>, then <b>three short things to review</b> — each on its own page, so you can do them one at a time whenever you have a moment.</p>
+    <p class="rz-lead">Everything above is your homepage draft. Below are <b>four short things to review</b> — each on its own page, so you can do them one at a time whenever you have a moment.</p>
   </div>
 
-  <!-- 1 · why this structure -->
+  <!-- review tasks -->
   <div class="wrap-narrow rz-block">
-    <h3 class="rz-sub">1 · Why the page is built this way</h3>
-    <p class="rz-note">A single long-scroll page for v1 — it reads like a slow, honest conversation (matches your voice), it's cheap to build &amp; clone to other languages, and it puts <b>credibility first, booking second</b>. Each block has one job:</p>
-    <div class="rz-card">
-      <div class="struct">
-        <div class="srow"><div class="si">1</div><div class="sn">Hero</div><div class="sd">Name the feeling in 5 seconds (“coming home to your body”) + two clear next steps: book, or start free.</div></div>
-        <div class="srow"><div class="si">2</div><div class="sn">Two ways in</div><div class="sd">The two-door offer — everyday calm tools + the deep rebirthing work. Lowers the barrier to entry.</div></div>
-        <div class="srow"><div class="si">3</div><div class="sn">What a session is like</div><div class="sd">The honesty block. Tells a stranger exactly what happens — including that it's intense. Builds trust by not overselling.</div></div>
-        <div class="srow"><div class="si">4</div><div class="sn">My story</div><div class="sd">“I lived it.” The human reason to trust you — collapsible now, its own page later.</div></div>
-        <div class="srow"><div class="si">5</div><div class="sn">Reviews</div><div class="sd">Three tasteful, identical cards. Social proof without the spotlight wall.</div></div>
-        <div class="srow"><div class="si">6</div><div class="sn">Free 10-min reset</div><div class="sd">Low-commitment entry + email capture — the same lead magnet that feeds Instagram.</div></div>
-        <div class="srow"><div class="si">7</div><div class="sn">Book + FAQ</div><div class="sd">What's included, the free intro call, and the questions that quietly stop people from booking. No prices on the page — those come up on the call.</div></div>
-        <div class="srow"><div class="si">8</div><div class="sn">Footer</div><div class="sd">Instagram + contact. Other-language versions clone from this page when they're ready.</div></div>
-      </div>
-    </div>
-    <p class="rz-note" style="margin-top:22px"><b>More languages later, cheaply:</b> because content lives in clean, repeated blocks, each translated version is a copy of this page at its own path (<code>/es</code> Spanish, <code>/ru</code> Russian) — no redesign. We build English to feel finished first, then clone Spanish and Russian.</p>
-  </div>
-
-  <!-- 2 · three review tasks -->
-  <div class="wrap-narrow rz-block">
-    <h3 class="rz-sub">2 · Three short things to review</h3>
+    <h3 class="rz-sub">Four short things to review</h3>
     <p class="rz-note">Each opens its own page with a <b>“Looks good”</b> button on every item and a box for notes. Do them in any order — but <b>#1 (accounts)</b> is the one that lets Daniel start setting things up, so it’s the best one to do first. On each page, tap <b>Send feedback</b> to Copy or Email it back to me — you can send each one separately as you finish it.</p>
 
     <div class="rz-card" style="padding:26px 28px;margin-top:18px">
@@ -504,6 +491,12 @@
       <div style="font-family:var(--serif);font-size:24px;font-weight:500;color:var(--umber);margin-bottom:4px">3 · The logo exploration</div>
       <p style="font-size:14.5px;color:var(--muted);margin:0 0 16px"><b>114 marks across 14 families</b> — all built from your brand, deliberately <i>not</i> woo. Go by gut: which 2–3 feel most like you? ★ = my standouts. Heart the ones you like and add notes.</p>
       <a class="btn rz-cta" href="logos.html">Open review 3 — the logo catalog →</a>
+    </div>
+
+    <div class="rz-card" style="padding:26px 28px;margin-top:16px">
+      <div style="font-family:var(--serif);font-size:24px;font-weight:500;color:var(--umber);margin-bottom:4px">4 · Collecting your reviews</div>
+      <p style="font-size:14.5px;color:var(--muted);margin:0 0 16px">How we’ll fill those three review cards above — one simple form you send after a session, in your colours. Includes a <b>mockup of the form</b> and how you’d use it. Nothing’s built yet; just react to the idea.</p>
+      <a class="btn rz-cta" href="collecting-reviews.html">Open review 4 — collecting reviews →</a>
     </div>
   </div>
 </section>
