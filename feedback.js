@@ -1,11 +1,20 @@
 /* Breath with Diana — zero-backend feedback widget.
-   Diana hearts logos + types notes, then Copies/Emails a clean summary.
-   State persists in her browser (localStorage). No account, no server. */
+   Two modes (set on <body data-fb-mode>):
+     • "logos"  (default) — Diana ♥-favorites items + notes.
+     • "review"           — Diana ticks "Looks good" on items OR leaves a comment;
+                            an item can be accepted, commented, or both.
+   State persists per-page in localStorage. No account, no server.
+   Reusable: all labels come from data-* attributes, so the same file drops into
+   any review microsite. */
 (function () {
   var body = document.body;
   var KEY = 'dianafb:' + (body.dataset.fbKey || location.pathname);
   var MAILTO = body.dataset.fbEmail || 'd.blaecker@gmail.com';
   var PAGE = body.dataset.fbPage || document.title;
+  var MODE = body.dataset.fbMode || 'logos';          // 'logos' | 'review'
+  var NOUN = body.dataset.fbNoun || (MODE === 'review' ? 'item' : 'logo');
+  var SUBJECT = body.dataset.fbSubject || ('Diana feedback — ' + PAGE);
+  var REVIEW = MODE === 'review';
 
   var CSS = '' +
     '#fb-bar{position:fixed;right:20px;bottom:20px;z-index:9999;font-family:Inter,system-ui,sans-serif}' +
@@ -15,7 +24,7 @@
     '#fb-head{font-family:"Cormorant Garamond",Georgia,serif;font-size:22px;color:#5B4636;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}' +
     '#fb-close{background:none;border:none;font-size:24px;line-height:1;color:#8A8C6E;cursor:pointer}' +
     '.fb-l{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(91,70,54,.6);margin:6px 0 6px}' +
-    '#fb-favs{max-height:190px;overflow:auto;margin-bottom:8px}' +
+    '#fb-favs{max-height:200px;overflow:auto;margin-bottom:8px}' +
     '.fb-empty{font-size:13px;color:rgba(91,70,54,.6);font-style:italic;padding:6px 0}' +
     '.fb-fav{font-size:13px;color:#5B4636;padding:7px 0;border-bottom:1px solid rgba(91,70,54,.12)}' +
     '.fb-fav span{color:rgba(91,70,54,.6)}.fb-fnote{font-size:12px;font-style:italic;color:#8A8C6E;margin-top:2px}' +
@@ -26,7 +35,7 @@
     '.fb-ghost{background:none;color:#5B4636}.fb-clear{margin-left:auto;border-color:rgba(91,70,54,.3)!important;color:rgba(91,70,54,.6)}' +
     '#fb-hint{font-size:11px;color:rgba(91,70,54,.55);margin-top:10px;line-height:1.5}' +
     '.fav-btn{background:none;border:none;cursor:pointer;font-size:17px;line-height:1;color:rgba(91,70,54,.32);padding:0;transition:transform .1s}' +
-    '.fav-btn:hover{transform:scale(1.18)}.fav-btn.on{color:#C97B5A}' +
+    '.fav-btn:hover{transform:scale(1.08)}.fav-btn.on{color:#C97B5A}' +
     '.fav-note{width:100%;box-sizing:border-box;font-family:Inter,sans-serif;font-size:12px;border:1px solid rgba(91,70,54,.16);border-radius:8px;padding:6px 9px;margin-top:8px;color:#5B4636;background:#fff}' +
     '.fb-flash{position:fixed;left:50%;bottom:84px;transform:translateX(-50%) translateY(8px);z-index:10000;background:#5B4636;color:#F4EFE6;font-family:Inter,sans-serif;font-size:13px;padding:11px 18px;border-radius:999px;opacity:0;transition:.2s}' +
     '.fb-flash.go{opacity:1;transform:translateX(-50%) translateY(0)}';
@@ -34,19 +43,27 @@
 
   var store;
   try { store = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { store = {}; }
-  store.favs = store.favs || {};      // id -> {name, group, note}
+  store.favs = store.favs || {};      // id -> {name, group, note, accepted}
   store.general = store.general || '';
   function save() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
 
-  // ---- floating bar + panel ----
+  // an entry is meaningful if it's accepted OR carries a note; otherwise drop it
+  function prune(id) {
+    var f = store.favs[id];
+    if (f && !f.accepted && !(f.note && f.note.trim())) delete store.favs[id];
+  }
+
   var bar = document.createElement('div');
   bar.id = 'fb-bar';
+  var generalLabel = REVIEW
+    ? 'Anything else? (overall thoughts, or anything not covered above)'
+    : 'Anything else? (overall thoughts, what you love, what feels off)';
   bar.innerHTML =
-    '<button id="fb-toggle" type="button"><span id="fb-count">0</span> saved · <b>Send feedback</b></button>' +
+    '<button id="fb-toggle" type="button"><span id="fb-count">0</span> noted · <b>Send feedback</b></button>' +
     '<div id="fb-panel" hidden>' +
       '<div id="fb-head">Your feedback <button id="fb-close" type="button" aria-label="close">×</button></div>' +
       '<div id="fb-favs"></div>' +
-      '<label class="fb-l">Anything else? (overall thoughts, what you love, what feels off)</label>' +
+      '<label class="fb-l">' + generalLabel + '</label>' +
       '<textarea id="fb-general" rows="4" placeholder="Type freely…"></textarea>' +
       '<div id="fb-actions">' +
         '<button id="fb-copy" type="button" class="fb-primary">Copy my feedback</button>' +
@@ -66,26 +83,47 @@
   }
 
   function favList() { return Object.keys(store.favs); }
+  function acceptedList() { return favList().filter(function (id) { return store.favs[id].accepted; }); }
+  function notedList() { return favList().filter(function (id) { return store.favs[id].note && store.favs[id].note.trim(); }); }
 
   function refresh() {
     document.querySelectorAll('.fav-btn').forEach(function (b) {
-      b.classList.toggle('on', !!store.favs[b.dataset.id]);
-      b.setAttribute('aria-pressed', store.favs[b.dataset.id] ? 'true' : 'false');
+      b.classList.toggle('on', !!(store.favs[b.dataset.id] && store.favs[b.dataset.id].accepted));
+      b.setAttribute('aria-pressed', (store.favs[b.dataset.id] && store.favs[b.dataset.id].accepted) ? 'true' : 'false');
     });
     document.querySelectorAll('.fav-note').forEach(function (n) {
       if (store.favs[n.dataset.id] && typeof store.favs[n.dataset.id].note === 'string') n.value = store.favs[n.dataset.id].note;
     });
-    var n = favList().length;
-    var c = document.getElementById('fb-count'); if (c) c.textContent = n;
     var favs = document.getElementById('fb-favs');
-    if (favs) {
-      if (!n) { favs.innerHTML = '<div class="fb-empty">Tap the ♥ on any logo to save it here.</div>'; }
-      else {
-        favs.innerHTML = '<div class="fb-l">Saved logos (' + n + ')</div>' + favList().map(function (id) {
-          var f = store.favs[id];
-          return '<div class="fb-fav"><b>' + esc(f.name || id) + '</b>' + (f.group ? ' <span>· ' + esc(f.group) + '</span>' : '') +
-            (f.note ? '<div class="fb-fnote">“' + esc(f.note) + '”</div>' : '') + '</div>';
-        }).join('');
+    if (REVIEW) {
+      var acc = acceptedList(), noted = notedList();
+      document.getElementById('fb-count').textContent = acc.length + noted.length;
+      if (favs) {
+        if (!acc.length && !noted.length) {
+          favs.innerHTML = '<div class="fb-empty">Tick “Looks good” on anything you’re happy with — or add a note on anything you’d change.</div>';
+        } else {
+          var html = '';
+          if (acc.length) html += '<div class="fb-l">Looks good (' + acc.length + ')</div>' + acc.map(function (id) {
+            return '<div class="fb-fav">✓ <b>' + esc(store.favs[id].name || id) + '</b></div>';
+          }).join('');
+          if (noted.length) html += '<div class="fb-l">Comments (' + noted.length + ')</div>' + noted.map(function (id) {
+            return '<div class="fb-fav"><b>' + esc(store.favs[id].name || id) + '</b><div class="fb-fnote">“' + esc(store.favs[id].note) + '”</div></div>';
+          }).join('');
+          favs.innerHTML = html;
+        }
+      }
+    } else {
+      var n = favList().length;
+      document.getElementById('fb-count').textContent = n;
+      if (favs) {
+        if (!n) { favs.innerHTML = '<div class="fb-empty">Tap the ♥ on any ' + esc(NOUN) + ' to save it here.</div>'; }
+        else {
+          favs.innerHTML = '<div class="fb-l">Saved ' + esc(NOUN) + 's (' + n + ')</div>' + favList().map(function (id) {
+            var f = store.favs[id];
+            return '<div class="fb-fav"><b>' + esc(f.name || id) + '</b>' + (f.group ? ' <span>· ' + esc(f.group) + '</span>' : '') +
+              (f.note ? '<div class="fb-fnote">“' + esc(f.note) + '”</div>' : '') + '</div>';
+          }).join('');
+        }
       }
     }
   }
@@ -95,8 +133,9 @@
       var b = e.target.closest('.fav-btn');
       if (b) {
         var id = b.dataset.id;
-        if (store.favs[id]) delete store.favs[id];
-        else store.favs[id] = { name: b.dataset.name || '', group: b.dataset.group || '', note: '' };
+        if (!store.favs[id]) store.favs[id] = { name: b.dataset.name || '', group: b.dataset.group || '', note: '', accepted: false };
+        store.favs[id].accepted = !store.favs[id].accepted;
+        prune(id);
         save(); refresh(); return;
       }
     });
@@ -104,8 +143,10 @@
       var nt = e.target.closest('.fav-note');
       if (nt) {
         var id = nt.dataset.id;
-        if (!store.favs[id]) store.favs[id] = { name: nt.dataset.name || '', group: nt.dataset.group || '', note: '' };
-        store.favs[id].note = nt.value; save(); return;
+        if (!store.favs[id]) store.favs[id] = { name: nt.dataset.name || '', group: nt.dataset.group || '', note: '', accepted: false };
+        store.favs[id].note = nt.value;
+        prune(id);
+        save(); refresh(); return;
       }
     });
     var gen = document.getElementById('fb-general');
@@ -118,16 +159,15 @@
       else fallbackCopy(txt);
     };
     document.getElementById('fb-email').onclick = function () {
-      var subj = encodeURIComponent('Diana brand feedback — ' + PAGE);
+      var subj = encodeURIComponent(SUBJECT);
       var body2 = encodeURIComponent(compile());
-      // Gmail web compose works in any browser (no desktop mail client needed); opens pre-filled to MAILTO.
       var gmail = 'https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=' + encodeURIComponent(MAILTO) + '&su=' + subj + '&body=' + body2;
       var w = window.open(gmail, '_blank');
-      if (!w) location.href = 'mailto:' + MAILTO + '?subject=' + subj + '&body=' + body2; // popup blocked → fall back to mail app
+      if (!w) location.href = 'mailto:' + MAILTO + '?subject=' + subj + '&body=' + body2;
       else flash('Opened Gmail — just hit send');
     };
     document.getElementById('fb-clear').onclick = function () {
-      if (!confirm('Clear all your saved logos and notes on this page?')) return;
+      if (!confirm('Clear everything you’ve marked on this page?')) return;
       store = { favs: {}, general: '' }; save();
       document.getElementById('fb-general').value = ''; refresh();
     };
@@ -135,17 +175,33 @@
 
   function compile() {
     var lines = ['Feedback on: ' + PAGE, ''];
-    var favs = favList();
-    if (favs.length) {
-      lines.push('♥ Saved logos (' + favs.length + '):');
-      favs.forEach(function (id) {
-        var f = store.favs[id];
-        lines.push('• ' + (f.group ? f.group + ' / ' : '') + (f.name || '') + '  [' + id + ']' + (f.note ? '  — ' + f.note : ''));
-      });
-      lines.push('');
+    if (REVIEW) {
+      var acc = acceptedList(), noted = notedList();
+      if (acc.length) {
+        lines.push('✓ LOOKS GOOD (' + acc.length + '):');
+        acc.forEach(function (id) { lines.push('• ' + (store.favs[id].name || id)); });
+        lines.push('');
+      }
+      if (noted.length) {
+        lines.push('✎ COMMENTS / CHANGES (' + noted.length + '):');
+        noted.forEach(function (id) { lines.push('• ' + (store.favs[id].name || id) + ': ' + store.favs[id].note.trim()); });
+        lines.push('');
+      }
+      if (store.general.trim()) { lines.push('OVERALL:'); lines.push(store.general.trim()); }
+      if (!acc.length && !noted.length && !store.general.trim()) lines.push('(nothing marked yet)');
+    } else {
+      var favs = favList();
+      if (favs.length) {
+        lines.push('♥ Saved ' + NOUN + 's (' + favs.length + '):');
+        favs.forEach(function (id) {
+          var f = store.favs[id];
+          lines.push('• ' + (f.group ? f.group + ' / ' : '') + (f.name || '') + '  [' + id + ']' + (f.note ? '  — ' + f.note : ''));
+        });
+        lines.push('');
+      }
+      if (store.general.trim()) { lines.push('Comments:'); lines.push(store.general.trim()); }
+      if (lines.length <= 2) lines.push('(no selections yet)');
     }
-    if (store.general.trim()) { lines.push('Comments:'); lines.push(store.general.trim()); }
-    if (lines.length <= 2) lines.push('(no selections yet)');
     return lines.join('\n');
   }
 

@@ -1,0 +1,66 @@
+/* Shared styles for the review subpages (accounts / brand).
+   Same warm-earth palette as the website. Reusable across review microsites. */
+:root{
+  --bone:#F4EFE6; --cream:#EFE7D8; --terracotta:#C97B5A; --sage:#8A8C6E;
+  --umber:#5B4636; --ochre:#D4A24C;
+  --muted:rgba(91,70,54,.62); --hairline:rgba(91,70,54,.14);
+  --serif:'Cormorant Garamond','Recoleta',Georgia,serif;
+  --sans:'Inter',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;scroll-behavior:smooth}
+body{background:var(--bone);color:var(--umber);font-family:var(--sans);font-weight:400;line-height:1.62;-webkit-font-smoothing:antialiased}
+
+.meta-banner{background:var(--umber);color:var(--bone);font-size:12.5px;letter-spacing:.04em;
+  padding:10px 20px;text-align:center;position:sticky;top:0;z-index:200}
+.meta-banner b{color:var(--ochre)}
+.meta-banner a{color:var(--bone)}
+
+.wrap{max-width:760px;margin:0 auto;padding:0 26px}
+header.rhead{padding:62px 0 8px}
+.back{font-size:13px;color:var(--terracotta);text-decoration:none;letter-spacing:.02em}
+.eyebrow{font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--sage);margin:26px 0 14px}
+h1.rh{font-family:var(--serif);font-weight:500;font-size:42px;line-height:1.1;letter-spacing:-.01em;margin:0 0 16px;color:var(--umber)}
+.rlead{font-size:16.5px;color:var(--umber);max-width:640px;margin:0 0 8px}
+.rlead b{font-weight:600}
+.how{background:var(--cream);border:1px solid var(--hairline);border-radius:14px;padding:18px 22px;margin:26px 0 6px;font-size:14.5px;color:var(--umber)}
+.how b{color:var(--terracotta)}
+
+section.items{padding:30px 0 40px}
+
+.ritem{background:#fff7;border:1px solid var(--hairline);border-radius:16px;padding:26px 26px 22px;margin:20px 0}
+.ritem-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:8px}
+.ritem-title{font-family:var(--serif);font-weight:500;font-size:25px;line-height:1.15;color:var(--umber)}
+.ritem-body{font-size:15px;color:var(--umber)}
+.ritem-body p{margin:8px 0}
+.ritem-body ul{margin:10px 0;padding-left:0;list-style:none}
+.ritem-body li{padding:8px 0;border-bottom:1px solid var(--hairline);display:flex;gap:12px;align-items:baseline}
+.ritem-body li:last-child{border-bottom:none}
+.ritem-body li .k{font-weight:600;min-width:140px;flex-shrink:0}
+.ritem-body code{background:var(--cream);border-radius:6px;padding:2px 7px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13.5px;color:var(--umber)}
+.note-q{background:rgba(212,162,76,.15);border-radius:10px;padding:12px 15px;font-size:14px;color:var(--umber);margin-top:14px}
+.note-q b{color:#a9791f}
+
+/* the Accept toggle (drives feedback.js .fav-btn) */
+.rtick{font-family:var(--sans);font-size:13px;font-weight:500;border:1px solid var(--sage);background:none;color:var(--sage);
+  border-radius:999px;padding:8px 16px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:.12s}
+.rtick::before{content:"○  ";font-weight:600}
+.rtick:hover{background:rgba(138,140,110,.12)}
+.rtick.on{background:var(--sage);color:var(--bone);border-color:var(--sage)}
+.rtick.on::before{content:"✓  "}
+
+.fav-note{width:100%;box-sizing:border-box;font-family:var(--sans);font-size:13.5px;border:1px solid var(--hairline);
+  border-radius:10px;padding:10px 12px;margin-top:14px;color:var(--umber);background:#fff;resize:vertical}
+
+footer.rfoot{background:var(--umber);color:rgba(244,239,230,.8);padding:40px 26px;text-align:center;font-size:13px;margin-top:30px}
+footer.rfoot a{color:var(--ochre);text-decoration:none}
+.next-strip{background:var(--cream);border-top:1px solid var(--hairline);padding:30px 26px;text-align:center}
+.next-strip a{display:inline-block;font-family:var(--sans);font-weight:500;font-size:14px;background:var(--ochre);color:var(--umber);
+  text-decoration:none;border-radius:999px;padding:12px 24px;margin-top:6px}
+
+@media(max-width:620px){
+  h1.rh{font-size:32px}
+  .ritem-head{flex-direction:column;gap:12px}
+  .ritem-body li{flex-direction:column;gap:2px}
+  .ritem-body li .k{min-width:0}
+}
