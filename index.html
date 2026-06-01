@@ -99,10 +99,27 @@
     /* ===================================================================== STORY */
     .story{background:var(--cream)}
     .story-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:60px;align-items:center}
-    .story-photo{aspect-ratio:1/1;border-radius:10px;
+    .story-photo{aspect-ratio:1/1;border-radius:10px;position:relative;overflow:hidden;
       background:radial-gradient(at 60% 35%,rgba(201,123,90,.5),transparent 55%),linear-gradient(160deg,var(--bone),#ddd2bf)}
     .story blockquote{font-family:var(--serif);font-size:30px;line-height:1.25;font-weight:500;margin:0 0 24px;letter-spacing:-.01em}
     .story p{font-size:15.5px;color:var(--umber);max-width:560px}
+    /* real photos fill their placeholder frames */
+    .hero-photo img,.story-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+    .hero-photo img{object-position:50% 30%}
+    /* the story long-read expander */
+    .story-more{margin-top:6px}
+    .story-more[open] .story-more-toggle::after{content:"  Show less"}
+    .story-more-toggle{font-family:var(--sans);font-weight:500;font-size:14px;color:var(--terracotta);cursor:pointer;
+      list-style:none;display:inline-block;margin-top:4px}
+    .story-more-toggle::-webkit-details-marker{display:none}
+    .story-more-toggle::after{content:"  Read more of my story →"}
+    .story-more .more-body{margin-top:14px}
+    .story-more .more-body p{margin:0 0 14px}
+    /* full-width "the space" band */
+    .space-band{position:relative;height:clamp(220px,38vw,440px);overflow:hidden}
+    .space-band img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 42%;display:block}
+    /* book card without a price */
+    .amt-note{font-family:var(--serif);font-size:26px;font-weight:500;color:var(--umber);margin:6px 0 2px}
 
     /* ===================================================================== REVIEWS */
     .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:42px}
@@ -197,7 +214,7 @@
 
 <!-- ============================ REVIEW WRAPPER (not part of the site) ============================ -->
 <div class="meta-banner">
-  <b>DRAFT v1 — directional.</b> Real homepage below · see the full <a href="logos.html"><b>Logo Catalog — 114 marks</b></a> (or the quick <a href="#logolab">6 below</a>) · then <a href="#appendix">why this structure</a>. Photos are placeholders. Use the <b>Send feedback</b> button (bottom-right) to leave notes.
+  <b>DRAFT v1 — directional.</b> Real homepage below · see the full <a href="logos.html"><b>Logo Catalog — 114 marks</b></a> (or the quick <a href="#logolab">6 below</a>) · then <a href="#appendix">why this structure</a>. Photos are Diana's own (draft picks — easy to swap). Use the <b>Send feedback</b> button (bottom-right) to leave notes.
 </div>
 
 <!-- ============================================================= THE WEBSITE STARTS HERE ========= -->
@@ -214,7 +231,6 @@
     <a class="link" href="#session">A session</a>
     <a class="link" href="#story">My story</a>
     <a class="link" href="#reviews">Reviews</a>
-    <span class="lang"><b>EN</b> · ES</span>
     <a class="btn btn-primary" href="#book">Book a session</a>
   </div>
 </header>
@@ -224,7 +240,7 @@
 <section class="hero">
   <div class="hero-grid">
     <div>
-      <div class="eyebrow">Rebirthing Breathwork · Bilingual · Thailand &amp; online</div>
+      <div class="eyebrow">Rebirthing breathwork · In person &amp; online</div>
       <h1>Coming home<br>to your <em>body</em>.</h1>
       <p class="sub">For when life looks right on the outside but feels empty inside — and you're ready to stop avoiding it. The work is making peace with what's already there, instead of looking outside for the next fix.</p>
       <div class="hero-cta">
@@ -232,7 +248,7 @@
         <a class="btn btn-ghost" href="#reset">Start with a free 10-min reset</a>
       </div>
     </div>
-    <div class="hero-photo"><div class="photo-tag">Hero portrait — warm, natural light, mid-exhale. (Diana's photo)</div></div>
+    <div class="hero-photo"><img src="img/diana-hero.jpg" alt="Diana guiding a one-to-one rebirthing breathwork session"></div>
   </div>
 </section>
 
@@ -289,17 +305,26 @@
   </div>
 </section>
 
+<!-- ===== THE SPACE (full-width photo band) ===== -->
+<div class="space-band"><img src="img/studio-space.jpg" alt="The quiet, light-filled space where sessions are held"></div>
+
 <!-- ===== STORY ===== -->
 <section class="story" id="story">
   <div class="wrap">
     <div class="story-grid">
-      <div class="story-photo"></div>
+      <div class="story-photo"><img src="img/diana-story.jpg" alt="Diana with a client during a session"></div>
       <div>
         <div class="eyebrow">My story</div>
         <blockquote>I built the life I was told would make me happy — and still felt empty. So I left it.</blockquote>
-        <p>I'm Diana. I'm Colombian, I live in Thailand, and I work in both Spanish and English. For years I did everything right on paper — and quietly felt like I was missing myself the whole time.</p>
-        <p>Rebirthing breathwork is how I found my way back to my own body. Not in a weekend, and not without some hard mornings. Now I guide other people through the same work — as someone who lived it, not as a guru above it.</p>
-        <p style="margin-top:18px"><a class="btn btn-ghost" href="#book">Read more &amp; book a call</a></p>
+        <p>I'm Diana. I'm Colombian, and I trained in rebirthing — a specific lineage of conscious-connected breathwork, not generic “breathwork.” For years I did everything right on paper, and quietly felt like I was missing myself the whole time.</p>
+        <details class="story-more">
+          <summary class="story-more-toggle"></summary>
+          <div class="more-body">
+            <p>The morning I knew I was leaving my old life, I needed to actually leave it. I left a job I was good at, a marriage I had built, and the identity that came with both — not because they were wrong, but because they had stopped fitting.</p>
+            <p>Rebirthing breathwork is how I found my way back to my own body. Not in a weekend, and not without some hard mornings. I work with the women I used to be — people who built the life they were supposed to want, arrived, and felt the quiet emptiness underneath. Now I guide them through the same work, as someone who lived it, not as a guru above it.</p>
+          </div>
+        </details>
+        <p style="margin-top:22px"><a class="btn btn-ghost" href="#book">Book a free call</a></p>
       </div>
     </div>
   </div>
@@ -320,7 +345,7 @@
       </div>
       <div class="rev">
         <p class="quote">[Second review slot. Tasteful, two–three sentences, real first name only. The design stays identical so the page never feels like a testimonial wall.]</p>
-        <div class="who"><div class="av">C</div><div><b>Chi L.</b><span>Bangkok</span></div></div>
+        <div class="who"><div class="av">C</div><div><b>Chi L.</b><span>Madrid</span></div></div>
       </div>
       <div class="rev">
         <p class="quote">[Third review slot. Diana approves each one before it goes live; consent is part of the collection step.]</p>
@@ -351,13 +376,12 @@
     <div class="book-grid">
       <div class="price-card">
         <div class="label">Private 1:1 rebirthing session</div>
-        <div class="amt">5,000 THB <small>· ~€130</small></div>
+        <div class="amt-note">What's included</div>
         <ul>
           <li>2–3 hours, fully held start to finish</li>
-          <li>Pre-session conversation included</li>
+          <li>Pre-session conversation beforehand</li>
           <li>Follow-up support in the days after</li>
-          <li>In person in Thailand, or online worldwide</li>
-          <li>In English or Spanish</li>
+          <li>In person or online worldwide</li>
         </ul>
         <a class="btn btn-primary" href="#" style="width:100%;text-align:center">Check availability</a>
         <p class="muted" style="font-size:13px;margin-top:16px;text-align:center">Not sure yet? <a href="#" style="color:var(--terracotta)">Book a free 15-min call</a> first.</p>
@@ -390,9 +414,7 @@
     <div>
       <h5>Find me</h5>
       <a href="#">Instagram — @breath.with.diana</a>
-      <a href="#">Instagram — @respira.con.diana</a>
       <a href="#">hello@breathwithdiana.com</a>
-      <a href="#">Español →</a>
     </div>
   </div>
   <div class="foot-bottom">
@@ -561,10 +583,11 @@
       <div class="srow"><div class="si">4</div><div class="sn">My story</div><div class="sd">“I lived it.” The human reason to trust her — no guru, no teacher-name needed.</div></div>
       <div class="srow"><div class="si">5</div><div class="sn">Reviews</div><div class="sd">Three tasteful, identical cards. Social proof without the spotlight wall.</div></div>
       <div class="srow"><div class="si">6</div><div class="sn">Free 10-min reset</div><div class="sd">Low-commitment entry + email capture — the same lead magnet that feeds Instagram.</div></div>
-      <div class="srow"><div class="si">7</div><div class="sn">Book + pricing + FAQ</div><div class="sd">5,000 THB session, what's included, free intro call, and the questions that quietly stop people from booking.</div></div>
-      <div class="srow"><div class="si">8</div><div class="sn">Footer</div><div class="sd">Both Instagram handles, contact, and the Spanish toggle that goes live when we clone the page.</div></div>
+      <div class="srow"><div class="si">7</div><div class="sn">Book + FAQ</div><div class="sd">What's included, the free intro call, and the questions that quietly stop people from booking. No prices on the page — those come up on the call.</div></div>
+      <div class="srow"><div class="si">8</div><div class="sn">Footer</div><div class="sd">Instagram + contact. Other-language versions clone from this page when they're ready.</div></div>
     </div>
-    <p class="muted" style="margin-top:36px;font-size:13.5px"><b>Spanish later, cheaply:</b> because content lives in clean, repeated blocks, the ES version is a copy of this page with translated text at <code>/es</code> — no redesign. We build EN to feel finished first, then flip ES on when the copy's ready.</p>
+    <p class="muted" style="margin-top:36px;font-size:13.5px"><b>More languages later, cheaply:</b> because content lives in clean, repeated blocks, each translated version is a copy of this page at its own path (<code>/es</code> Spanish, <code>/ru</code> Russian) — no redesign. We build English to feel finished first, then clone Spanish and Russian when the copy's ready.</p>
+    <p class="muted" style="margin-top:14px;font-size:13.5px"><b>“My story” grows later:</b> it's collapsible here so the homepage stays light. When there's more to tell, it becomes its own <code>/story</code> page that this section links to.</p>
   </div>
 </section>
 
