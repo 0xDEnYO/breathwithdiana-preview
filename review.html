@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Breathe with Diana — share your experience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bone:#F4EFE6; --cream:#EFE7D8; --terracotta:#C97B5A; --sage:#8A8C6E;
+      --umber:#5B4636; --ochre:#D4A24C;
+      --muted:rgba(91,70,54,.62); --hairline:rgba(91,70,54,.14);
+      --serif:'Cormorant Garamond','Recoleta',Georgia,serif;
+      --sans:'Inter',system-ui,-apple-system,sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    body{background:var(--bone);color:var(--umber);font-family:var(--sans);font-weight:400;
+      line-height:1.6;-webkit-font-smoothing:antialiased;padding:30px 18px 60px}
+    .card{background:#fff;border:1px solid var(--hairline);border-radius:20px;
+      box-shadow:0 22px 54px -34px rgba(91,70,54,.55);overflow:hidden;max-width:460px;margin:0 auto}
+    .top{height:7px;background:linear-gradient(90deg,var(--terracotta),var(--ochre))}
+    .inner{padding:30px 28px 34px}
+    .logo{display:block;width:188px;max-width:62%;height:auto;margin:0 0 20px}
+    .intro{font-family:var(--serif);font-size:25px;line-height:1.22;color:var(--umber);margin:0 0 8px;font-weight:500}
+    .sub{font-size:13.5px;color:var(--muted);margin:0 0 24px;line-height:1.5}
+
+    .q{margin:0 0 19px}
+    .q > label{display:block;font-size:13.5px;font-weight:500;color:var(--umber);margin-bottom:7px}
+    .q .opt{font-weight:400;color:var(--muted);font-size:11.5px}
+    .req{font-size:9.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#fff;
+      background:var(--terracotta);border-radius:999px;padding:2px 8px;margin-left:5px;vertical-align:middle}
+    input[type=text],input[type=email],input[type=number],textarea{
+      width:100%;border:1px solid var(--hairline);border-radius:9px;background:#FCFAF5;
+      padding:11px 13px;font-family:var(--sans);font-size:14px;color:var(--umber);outline:none;transition:border-color .15s,background .15s}
+    input:focus,textarea:focus{border-color:var(--terracotta);background:#fff}
+    input::placeholder,textarea::placeholder{color:rgba(91,70,54,.38)}
+    textarea{resize:vertical;min-height:84px}
+    input[type=number]{max-width:110px}
+
+    /* stars */
+    .stars{display:inline-flex;gap:4px;font-size:30px;line-height:1;cursor:pointer;user-select:none}
+    .stars span{color:rgba(91,70,54,.2);transition:color .1s}
+    .stars span.on{color:var(--ochre)}
+
+    /* authenticity callout */
+    .auth{background:rgba(201,123,90,.12);border:1px solid rgba(201,123,90,.32);border-radius:11px;
+      padding:12px 14px;font-size:12.5px;line-height:1.5;color:var(--umber);margin:4px 0 19px}
+
+    /* upload */
+    .upload{position:relative;border:1.5px dashed rgba(91,70,54,.28);border-radius:11px;padding:16px;
+      text-align:center;font-size:13px;color:var(--muted);background:#FCFAF5;cursor:pointer;transition:border-color .15s}
+    .upload:hover{border-color:var(--terracotta)}
+    .upload input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+    .upload.has{border-color:var(--sage);color:var(--umber)}
+    .or{font-size:11.5px;color:var(--muted);text-align:center;margin:7px 0}
+
+    /* opt-out line */
+    .optout{font-size:12px;color:var(--muted);margin-top:8px;display:flex;align-items:center;gap:7px;cursor:pointer}
+    .optout input{width:15px;height:15px;accent-color:var(--sage);flex-shrink:0}
+    .q.muted-off > label,.q.muted-off .upload,.q.muted-off input[type=text]{opacity:.42}
+
+    /* how you'll appear */
+    .appear{background:#FCFAF5;border:1px dashed var(--hairline);border-radius:9px;padding:10px 13px;
+      font-size:12.5px;color:var(--muted);margin:2px 0 18px}
+    .appear b{color:var(--umber);font-weight:600}
+
+    /* consent */
+    .consent{display:flex;gap:11px;align-items:flex-start;background:rgba(212,162,76,.13);
+      border-radius:11px;padding:14px 15px;margin-top:6px;cursor:pointer}
+    .consent input{width:18px;height:18px;accent-color:var(--terracotta);flex-shrink:0;margin-top:1px}
+    .consent p{margin:0;font-size:12.5px;line-height:1.5;color:var(--umber)}
+
+    .send{margin-top:22px;width:100%;background:var(--terracotta);color:#fff;border:none;cursor:pointer;
+      border-radius:999px;padding:15px;font-family:var(--sans);font-size:15px;font-weight:500;letter-spacing:.01em;
+      transition:background .15s,transform .05s}
+    .send:hover{background:#b86a4b}
+    .send:active{transform:translateY(1px)}
+    .send:disabled{opacity:.6;cursor:default}
+    .err{color:#a8442a;font-size:12.5px;margin-top:10px;text-align:center;min-height:16px}
+
+    /* honeypot */
+    .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+    /* thank-you */
+    .thanks{display:none;text-align:center;padding:18px 6px 8px}
+    .thanks .tlogo{width:56px;height:56px;margin:0 auto 16px;border-radius:50%;
+      background:rgba(138,140,110,.16);display:flex;align-items:center;justify-content:center;font-size:26px}
+    .thanks h2{font-family:var(--serif);font-weight:500;font-size:27px;color:var(--umber);margin:0 0 10px}
+    .thanks p{font-size:14px;color:var(--muted);max-width:330px;margin:0 auto;line-height:1.55}
+    .privacy{font-size:11px;color:var(--muted);text-align:center;margin:18px 0 0;line-height:1.5}
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="top"></div>
+  <div class="inner">
+
+    <!-- compact brand lockup -->
+    <svg class="logo" viewBox="0 0 520 168" role="img" aria-label="Breathe with Diana"><g transform="translate(10,12) scale(0.3597) translate(-53.0,-104.0) translate(422,0) scale(-1,1)"><path d="M219.00 104.00C226.83 103.33 238.00 107.00 246.00 110.00C254.00 113.00 257.50 113.83 267.00 122.00C276.50 130.17 287.17 146.67 303.00 159.00C318.83 171.33 352.67 188.67 362.00 196.00C371.33 203.33 363.33 201.83 359.00 203.00C354.67 204.17 340.50 202.00 336.00 203.00C331.50 204.00 326.83 202.00 332.00 209.00C337.17 216.00 360.83 235.00 367.00 245.00C373.17 255.00 369.67 262.83 369.00 269.00C368.33 275.17 366.67 281.00 363.00 282.00C359.33 283.00 351.33 275.50 347.00 275.00C342.67 274.50 339.00 277.00 337.00 279.00C335.00 281.00 333.50 281.33 335.00 287.00C336.50 292.67 346.50 305.00 346.00 313.00C345.50 321.00 335.50 331.67 332.00 335.00C328.50 338.33 331.17 338.33 325.00 333.00C318.83 327.67 302.17 306.17 295.00 303.00C287.83 299.83 286.83 312.50 282.00 314.00C277.17 315.50 271.17 309.50 266.00 312.00C260.83 314.50 254.50 326.67 251.00 329.00C247.50 331.33 246.00 329.17 245.00 326.00C244.00 322.83 246.17 313.17 245.00 310.00C243.83 306.83 240.00 306.83 238.00 307.00C236.00 307.17 236.00 305.67 233.00 311.00C230.00 316.33 222.83 329.17 220.00 339.00C217.17 348.83 210.83 341.17 216.00 370.00C221.17 398.83 246.67 486.83 251.00 512.00C255.33 537.17 258.83 519.50 242.00 521.00C225.17 522.50 166.50 521.67 150.00 521.00C133.50 520.33 144.83 520.17 143.00 517.00C141.17 513.83 140.83 505.67 139.00 502.00C137.17 498.33 143.83 496.83 132.00 495.00C120.17 493.17 75.83 494.33 68.00 491.00C60.17 487.67 80.83 480.17 85.00 475.00C89.17 469.83 88.17 480.83 93.00 460.00C97.83 439.17 114.83 377.50 114.00 350.00C113.17 322.50 97.50 308.83 88.00 295.00C78.50 281.17 62.83 274.83 57.00 267.00C51.17 259.17 52.67 252.67 53.00 248.00C53.33 243.33 55.83 240.33 59.00 239.00C62.17 237.67 61.33 230.83 72.00 240.00C82.67 249.17 112.33 285.17 123.00 294.00C133.67 302.83 130.17 298.67 136.00 293.00C141.83 287.33 149.83 270.50 158.00 260.00C166.17 249.50 179.50 237.17 185.00 230.00C190.50 222.83 190.83 221.83 191.00 217.00C191.17 212.17 190.67 206.00 186.00 201.00C181.33 196.00 167.33 193.00 163.00 187.00C158.67 181.00 156.17 175.17 160.00 165.00C163.83 154.83 179.50 134.50 186.00 126.00C192.50 117.50 193.50 117.67 199.00 114.00C204.50 110.33 211.17 104.67 219.00 104.00Z" fill="#5B4636"/></g><text x="146" y="104" font-family="Cormorant Garamond, Georgia, serif" font-weight="500" font-size="40" fill="#5B4636">Breathe wıth Dıana</text></svg>
+
+    <form id="reviewForm" novalidate>
+      <p class="intro">Thank you for breathing with me 🤍</p>
+      <p class="sub">If today meant something to you, the most loving way to pass it on is a few honest words. Your story is what helps these tools reach the next person who needs them — so if you feel moved to, please share a real, meaningful review. Just a minute, from the heart.</p>
+
+      <!-- honeypot: bots fill it, humans never see it -->
+      <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
+
+      <div class="q">
+        <label for="firstName">First name <span class="req">needed</span></label>
+        <input type="text" id="firstName" name="firstName" placeholder="Maria" autocomplete="given-name">
+      </div>
+
+      <div class="q">
+        <label for="age">Age <span class="opt">· optional</span></label>
+        <input type="number" id="age" name="age" placeholder="34" min="14" max="120">
+      </div>
+
+      <div class="q">
+        <label for="email">Your email <span class="opt">· stays private</span> <span class="req">needed</span></label>
+        <input type="email" id="email" name="email" placeholder="maria@…" autocomplete="email">
+      </div>
+
+      <div class="q">
+        <label for="experience">How was your experience? <span class="req">needed</span></label>
+        <textarea id="experience" name="experience" placeholder="I came in tense and left lighter than I have in months…"></textarea>
+      </div>
+
+      <div class="q">
+        <label>How was it, in stars? <span class="req">needed</span></label>
+        <div class="stars" id="stars" role="radiogroup" aria-label="Rating out of five">
+          <span data-v="1" role="radio" aria-checked="false" aria-label="1 star">★</span>
+          <span data-v="2" role="radio" aria-checked="false" aria-label="2 stars">★</span>
+          <span data-v="3" role="radio" aria-checked="false" aria-label="3 stars">★</span>
+          <span data-v="4" role="radio" aria-checked="false" aria-label="4 stars">★</span>
+          <span data-v="5" role="radio" aria-checked="false" aria-label="5 stars">★</span>
+        </div>
+        <input type="hidden" id="stars-val" name="stars" value="">
+      </div>
+
+      <div class="auth">These two are what make your review <b>real</b> — a face and a profile people can recognise are worth ten anonymous ones. Please add both if you can 🤍</div>
+
+      <div class="q" id="q-ig">
+        <label for="instagram">Your Instagram <span class="req">needed</span></label>
+        <input type="text" id="instagram" name="instagram" placeholder="@maria.breathes" autocomplete="off">
+        <label class="optout"><input type="checkbox" id="ig-optout"> I’d rather not share my Instagram</label>
+      </div>
+
+      <div class="q" id="q-photo">
+        <label>A photo of you <span class="req">needed</span></label>
+        <div class="upload" id="photo-drop">
+          <span id="photo-label">＋ add a photo</span>
+          <input type="file" id="photo" name="photo" accept="image/*">
+        </div>
+        <div class="or">— or —</div>
+        <input type="text" id="photoLink" name="photoLink" placeholder="paste a link to a photo">
+        <label class="optout"><input type="checkbox" id="photo-optout"> I’d rather not share a photo</label>
+      </div>
+
+      <div class="q">
+        <label>A short video review <span class="opt">· optional</span></label>
+        <div class="upload" id="video-drop">
+          <span id="video-label">＋ add a short clip</span>
+          <input type="file" id="video" name="video" accept="video/*">
+        </div>
+        <div class="or">— or —</div>
+        <input type="text" id="videoLink" name="videoLink" placeholder="paste a link to a clip">
+      </div>
+
+      <div class="q">
+        <label for="private">What could I have done better? <span class="opt">· just for me, never shared</span></label>
+        <textarea id="private" name="private" placeholder="…" style="min-height:64px"></textarea>
+      </div>
+
+      <div class="appear" id="appear">How you’ll appear: <b id="appear-text">Maria, 34 · @maria.breathes</b></div>
+
+      <label class="consent">
+        <input type="checkbox" id="consent" name="consent">
+        <p>I’m happy for Diana to use my words, my first name &amp; age, my photo or video, and my Instagram handle on her website and social media.</p>
+      </label>
+
+      <button type="submit" class="send" id="sendBtn">Send 🤍</button>
+      <div class="err" id="err"></div>
+      <p class="privacy">Your email and your “what could I do better” note are <b>private</b> — only Diana sees them, never posted. A review is only ever published if you tick the box above.</p>
+    </form>
+
+    <!-- success state -->
+    <div class="thanks" id="thanks">
+      <div class="tlogo">🤍</div>
+      <h2>Thank you, truly.</h2>
+      <p>Your words have landed safely with Diana. It means more than you know — this is how these tools reach the next person who needs them.</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ====== CONFIG ======
+  // Replaced with the live Apps Script /exec URL at deploy time.
+  const ENDPOINT = "https://script.google.com/macros/s/AKfycbzI4fg9jKItTJCuDwXl0Ps2A4TJfGs5A73X-46P6TgCNxuwRKXpy_DpzHTkH_lNeHcYjA/exec";
+  const MAX_PHOTO = 10 * 1024 * 1024;   // 10 MB
+  const MAX_VIDEO = 25 * 1024 * 1024;   // 25 MB — above this, ask for a link
+
+  // ====== stars ======
+  let rating = 0;
+  const starEls = [...document.querySelectorAll('#stars span')];
+  function paint(n){ starEls.forEach(s => s.classList.toggle('on', +s.dataset.v <= n)); }
+  starEls.forEach(s=>{
+    s.addEventListener('mouseenter', ()=>paint(+s.dataset.v));
+    s.addEventListener('click', ()=>{ rating = +s.dataset.v; document.getElementById('stars-val').value = rating;
+      starEls.forEach(x=>x.setAttribute('aria-checked', x.dataset.v==rating)); paint(rating); });
+  });
+  document.getElementById('stars').addEventListener('mouseleave', ()=>paint(rating));
+
+  // ====== opt-outs toggle required + dim ======
+  function wireOptout(boxId, qId, inputs){
+    const box = document.getElementById(boxId), q = document.getElementById(qId);
+    box.addEventListener('change', ()=>{
+      q.classList.toggle('muted-off', box.checked);
+      inputs.forEach(id=>{ const el=document.getElementById(id); if(el){ el.disabled = box.checked; } });
+      updateAppear();
+    });
+  }
+  wireOptout('ig-optout','q-ig',['instagram']);
+  wireOptout('photo-optout','q-photo',['photo','photoLink']);
+
+  // ====== file labels + size guard ======
+  function wireFile(inputId, labelId, dropId, max, kind){
+    const inp=document.getElementById(inputId), lab=document.getElementById(labelId), drop=document.getElementById(dropId);
+    inp.addEventListener('change', ()=>{
+      const f = inp.files[0];
+      if(!f){ lab.textContent = kind==='photo' ? '＋ add a photo' : '＋ add a short clip'; drop.classList.remove('has'); return; }
+      if(f.size > max){
+        setErr(`That ${kind} is a bit large (max ${Math.round(max/1024/1024)} MB). Please pick a smaller file, or paste a link instead.`);
+        inp.value=''; lab.textContent = kind==='photo' ? '＋ add a photo' : '＋ add a short clip'; drop.classList.remove('has'); return;
+      }
+      setErr('');
+      lab.textContent = '✓ ' + f.name;
+      drop.classList.add('has');
+    });
+  }
+  wireFile('photo','photo-label','photo-drop',MAX_PHOTO,'photo');
+  wireFile('video','video-label','video-drop',MAX_VIDEO,'video');
+
+  // ====== live "how you'll appear" ======
+  function updateAppear(){
+    const name = document.getElementById('firstName').value.trim() || 'Your name';
+    const age = document.getElementById('age').value.trim();
+    const igOut = document.getElementById('ig-optout').checked;
+    const ig = document.getElementById('instagram').value.trim().replace(/^@/,'');
+    let s = name;
+    if(age) s += ', ' + age;
+    if(!igOut && ig) s += ' · @' + ig;
+    document.getElementById('appear-text').textContent = s;
+  }
+  ['firstName','age','instagram'].forEach(id=>document.getElementById(id).addEventListener('input', updateAppear));
+  updateAppear();
+
+  // ====== helpers ======
+  function setErr(m){ document.getElementById('err').textContent = m || ''; }
+  function readAsDataURL(file){
+    return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(file); });
+  }
+
+  // ====== submit ======
+  document.getElementById('reviewForm').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    setErr('');
+
+    // honeypot
+    if(document.querySelector('input[name=company]').value){ return; }
+
+    const v = id => document.getElementById(id).value.trim();
+    const igOut = document.getElementById('ig-optout').checked;
+    const photoOut = document.getElementById('photo-optout').checked;
+
+    // validation
+    if(!v('firstName')) return setErr('Please add your first name.');
+    if(!v('email') || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v('email'))) return setErr('Please add a valid email.');
+    if(!v('experience')) return setErr('Please share a few words about your experience.');
+    if(!rating) return setErr('Please tap a star rating.');
+    if(!igOut && !v('instagram')) return setErr('Please add your Instagram — or tick “I’d rather not”.');
+    const photoFile = document.getElementById('photo').files[0];
+    if(!photoOut && !photoFile && !v('photoLink')) return setErr('Please add a photo or a link — or tick “I’d rather not”.');
+
+    const btn = document.getElementById('sendBtn');
+    btn.disabled = true; btn.textContent = 'Sending…';
+
+    try{
+      const payload = {
+        firstName: v('firstName'), age: v('age'), email: v('email'),
+        experience: v('experience'), stars: rating,
+        instagram: igOut ? '' : v('instagram').replace(/^@/,''),
+        igOptOut: igOut, photoOptOut: photoOut,
+        photoLink: v('photoLink'), videoLink: v('videoLink'),
+        privateFeedback: v('private'),
+        consent: document.getElementById('consent').checked,
+        appear: document.getElementById('appear-text').textContent,
+        page: location.href
+      };
+      if(!photoOut && photoFile){
+        payload.photo = { name: photoFile.name, mimeType: photoFile.type, data: await readAsDataURL(photoFile) };
+      }
+      const videoFile = document.getElementById('video').files[0];
+      if(videoFile){
+        payload.video = { name: videoFile.name, mimeType: videoFile.type, data: await readAsDataURL(videoFile) };
+      }
+
+      // text/plain body => "simple request" => no CORS preflight. no-cors => write succeeds (opaque response).
+      await fetch(ENDPOINT, { method:'POST', mode:'no-cors', body: JSON.stringify(payload) });
+
+      document.getElementById('reviewForm').style.display='none';
+      document.getElementById('thanks').style.display='block';
+      window.scrollTo({top:0,behavior:'smooth'});
+    }catch(err){
+      btn.disabled=false; btn.textContent='Send 🤍';
+      setErr('Something went wrong sending that. Please try again, or send Diana your words directly.');
+    }
+  });
+</script>
+</body>
+</html>
