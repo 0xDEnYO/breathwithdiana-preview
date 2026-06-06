@@ -161,13 +161,9 @@
       </div>
 
       <div class="q">
-        <label>A short video review <span class="opt">· optional</span></label>
-        <div class="upload" id="video-drop">
-          <span id="video-label">＋ add a short clip</span>
-          <input type="file" id="video" name="video" accept="video/*">
-        </div>
-        <div class="or">— or —</div>
-        <input type="text" id="videoLink" name="videoLink" placeholder="paste a link to a clip">
+        <label for="videoLink">A short video review <span class="opt">· optional</span></label>
+        <input type="text" id="videoLink" name="videoLink" placeholder="paste a link — YouTube, Drive, Instagram…">
+        <p style="font-size:12px;color:var(--muted);margin:8px 0 0;line-height:1.5">Video says so much. Easiest is to paste a link — or just send your clip to Diana on WhatsApp 🤍</p>
       </div>
 
       <div class="q">
@@ -201,8 +197,10 @@
   // ====== CONFIG ======
   // Replaced with the live Apps Script /exec URL at deploy time.
   const ENDPOINT = "https://script.google.com/macros/s/AKfycbzI4fg9jKItTJCuDwXl0Ps2A4TJfGs5A73X-46P6TgCNxuwRKXpy_DpzHTkH_lNeHcYjA/exec";
+  const SUBMIT_TOKEN = "bwd_rv_8Kx2pQ7m"; // must match Code.gs
   const MAX_PHOTO = 10 * 1024 * 1024;   // 10 MB
-  const MAX_VIDEO = 25 * 1024 * 1024;   // 25 MB — above this, ask for a link
+  // Video is link-only: large clips can't fit through the free no-server upload path,
+  // so clients paste a link or send it to Diana on WhatsApp.
 
   // ====== stars ======
   let rating = 0;
@@ -243,7 +241,6 @@
     });
   }
   wireFile('photo','photo-label','photo-drop',MAX_PHOTO,'photo');
-  wireFile('video','video-label','video-drop',MAX_VIDEO,'video');
 
   // ====== live "how you'll appear" ======
   function updateAppear(){
@@ -291,6 +288,8 @@
 
     try{
       const payload = {
+        token: SUBMIT_TOKEN,
+        company: document.querySelector('input[name=company]').value, // honeypot (server re-checks)
         firstName: v('firstName'), age: v('age'), email: v('email'),
         experience: v('experience'), stars: rating,
         instagram: igOut ? '' : v('instagram').replace(/^@/,''),
@@ -303,10 +302,6 @@
       };
       if(!photoOut && photoFile){
         payload.photo = { name: photoFile.name, mimeType: photoFile.type, data: await readAsDataURL(photoFile) };
-      }
-      const videoFile = document.getElementById('video').files[0];
-      if(videoFile){
-        payload.video = { name: videoFile.name, mimeType: videoFile.type, data: await readAsDataURL(videoFile) };
       }
 
       // text/plain body => "simple request" => no CORS preflight. no-cors => write succeeds (opaque response).
