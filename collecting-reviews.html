@@ -155,7 +155,17 @@
                 <span>breathe with diana</span>
               </div>
               <p class="mock-intro">Thank you for breathing with me 🤍</p>
-              <p class="mock-sub">If today meant something to you, the most loving way to pass it on is a few honest words. Your story is what helps these tools reach the next person who needs them — so if you feel moved to, please share a real, meaningful review. Just a minute, from the heart.</p>
+              <p class="mock-sub">If today meant something to you, the most loving way to pass it on is a few honest words. First, one quick question:</p>
+
+              <!-- the consent-first gate: the very first thing they see -->
+              <div style="background:rgba(212,162,76,.14);border:1px solid rgba(212,162,76,.32);border-radius:11px;padding:12px 13px;font-size:12.5px;color:var(--umber);line-height:1.45;margin:0 0 12px">Would you be happy for Diana to share your review — your words, first name, photo &amp; Instagram — on her website and Instagram?</div>
+              <div style="display:flex;gap:8px;margin-bottom:6px">
+                <div style="flex:1;background:var(--terracotta);color:#fff;text-align:center;border-radius:999px;padding:10px;font-size:12px">Yes, I’m happy to share 🤍</div>
+                <div style="flex:1;border:1px solid var(--umber);color:var(--umber);text-align:center;border-radius:999px;padding:10px;font-size:12px">Keep it private</div>
+              </div>
+              <p style="font-size:10.5px;color:var(--muted);text-align:center;margin:0 0 18px;line-height:1.45">Either way it goes straight to you — “private” just means for your eyes only, never posted.</p>
+
+              <div style="font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--sage);font-weight:600;margin:0 0 12px">If they tap “Yes, share” →</div>
 
               <div class="mq"><label>First name</label><div class="mfield">Maria</div></div>
               <div class="mq"><label>Age <span class="opt">· optional</span></label><div class="mfield" style="max-width:90px">34</div></div>
@@ -166,23 +176,36 @@
               <div class="mauth">These two are what make your review <b>real</b> — a face and a profile people can recognise are worth ten anonymous ones. Please add both if you can 🤍</div>
               <div class="mq"><label>Your Instagram <span class="mreq">needed</span></label><div class="mfield">@maria.breathes</div>
                 <div class="mopt">☐ I’d rather not share my Instagram</div></div>
-              <div class="mq"><label>A photo of you <span class="mreq">needed</span></label><div class="mupload">＋ add a photo — or paste a link</div>
+              <div class="mq"><label>A photo of you <span class="mreq">needed</span></label>
+                <div style="background:rgba(138,140,110,.13);border:1px solid rgba(138,140,110,.4);border-radius:9px;padding:9px 11px;font-size:11.5px;color:var(--umber);margin-bottom:9px">☐ <b>Easiest — use a photo from my Instagram</b> (@maria.breathes), so I don’t upload anything</div>
+                <div class="mupload">＋ add a photo — or paste a link</div>
                 <div class="mopt">☐ I’d rather not share a photo</div></div>
 
-              <div class="mq"><label>A short video review <span class="opt">· optional</span></label><div class="mupload">＋ add a short clip — or paste a link</div></div>
+              <div class="mq"><label>A short video review <span class="opt">· optional</span></label><div class="mfield">paste a link — or send it on WhatsApp</div></div>
               <div class="mq"><label>What could I have done better? <span class="opt">· just for me, never shared</span></label><div class="mfield">…</div></div>
 
               <div class="mappear">How you’ll appear: <b>Maria, 34 · @maria.breathes</b></div>
-              <div class="mconsent">
-                <div class="mbox">✓</div>
-                <p>I’m happy for Diana to use my words, my first name &amp; age, my photo or video, and my Instagram handle on her website and social media.</p>
-              </div>
               <div class="msend">Send 🤍</div>
             </div>
           </div>
+
+          <!-- the private path -->
+          <div class="mock" style="margin-top:16px">
+            <div class="mock-top" style="background:var(--sage)"></div>
+            <div class="mock-inner">
+              <div style="font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--sage);font-weight:600;margin-bottom:10px">If they tap “Keep it private” →</div>
+              <p class="mock-intro" style="font-size:20px">Thank you 🤍</p>
+              <p class="mock-sub" style="margin-bottom:15px">Just between you and Diana — never posted. Their honest thoughts help you grow.</p>
+              <div class="mq"><label>Your first name <span class="opt">· optional</span></label><div class="mfield">Maria</div></div>
+              <div class="mq"><label>What was good?</label><div class="mfield">…</div></div>
+              <div class="mq"><label>What could have been better?</label><div class="mfield">…</div></div>
+              <div class="msend" style="background:var(--sage)">Send 🤍</div>
+            </div>
+          </div>
+
           <p class="mock-cap">This is the live form — already built and ready to share.</p>
         </div>
-        <p class="muted" style="font-size:13.5px">Three quiet but important touches: <b>(1)</b> the photo and Instagram are gently <b>pushed as “needed”</b> — a real face and profile are what make a stranger trust a review, so the form leans on people to add them, with a small “I’d rather not” escape so you don’t lose the whole review. Everyone’s shown <b>how they’ll appear</b> (“Maria, 34 · @handle”) so it feels safe. <b>(2)</b> The <b>“what could I have done better?”</b> answer is kept <b>private</b> — only for you, never on a post. <b>(3)</b> The <b>permission tick</b> is its own thing: if someone leaves it unticked, you still get their words and honest feedback, you just won’t post them.</p>
+        <p class="muted" style="font-size:13.5px">Three quiet but important touches: <b>(1)</b> <b>permission comes first.</b> Before anything else, they choose whether you may share their review. Say <b>yes</b> → they fill the full review above (photo &amp; Instagram gently pushed as “needed,” with a small “I’d rather not” escape; a real face and profile are what make a stranger trust a review). Choose <b>private</b> → they skip all of that and just tell you what was good and what could be better. <b>(2)</b> Because permission is the very first step, <b>everything you collect on the public path is yours to post</b> — no chasing afterwards. <b>(3)</b> The <b>“what could I have done better?”</b> answer (and their email) are always kept <b>private</b> — only for you, never on a post.</p>
       </div>
       <textarea class="fav-note" data-id="form" data-name="The form mockup" rows="2" placeholder="Anything to add, remove, or word differently? (optional)"></textarea>
     </div>
