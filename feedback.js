@@ -1,10 +1,10 @@
-/* Breath with Diana — zero-backend feedback widget.
+/* Breath with Diana, zero-backend feedback widget.
    Two modes (set on <body data-fb-mode>):
-     • "logos"  (default) — Diana ♥-favorites items + notes.
-     • "review"           — Diana ticks "Looks good" on items OR leaves a comment.
+     • "logos"  (default), Diana ♥-favorites items + notes.
+     • "review"          , Diana ticks "Looks good" on items OR leaves a comment.
    State persists per-page in localStorage. No account, no server.
    AGGREGATION: a page autosaves its own state under its own key, but Copy/Email
-   compiles EVERYTHING marked across ALL pages — so she can fill several pages and
+   compiles EVERYTHING marked across ALL pages, so she can fill several pages and
    send once, in any order, and never lose a page's notes.
    Reusable: labels come from data-* attributes; drops into any review microsite. */
 (function () {
@@ -110,7 +110,7 @@
         '<button id="fb-email" type="button" class="fb-ghost">Email it</button>' +
         '<button id="fb-clear" type="button" class="fb-ghost fb-clear">Reset</button>' +
       '</div>' +
-      '<div id="fb-hint">Sends <b>everything you’ve marked on all pages</b> at once — you don’t have to send each page separately. “Copy” → paste to Daniel; “Email” → opens a pre-filled Gmail.</div>' +
+      '<div id="fb-hint">Sends <b>everything you’ve marked on all pages</b> at once, you don’t have to send each page separately. “Copy” → paste to Daniel; “Email” → opens a pre-filled Gmail.</div>' +
     '</div>';
   document.addEventListener('DOMContentLoaded', mount);
   if (document.readyState !== 'loading') mount();
@@ -141,7 +141,7 @@
         return '<div class="fb-fav">✓ <b>' + esc(store.favs[id].name || id) + '</b></div>'; }).join('');
       if (noted.length) html += '<div class="fb-l">Comments (' + noted.length + ')</div>' + noted.map(function (id) {
         return '<div class="fb-fav"><b>' + esc(store.favs[id].name || id) + '</b><div class="fb-fnote">“' + esc(store.favs[id].note) + '”</div></div>'; }).join('');
-      if (!acc.length && !noted.length) html += '<div class="fb-empty">Tick “Looks good” on anything you’re happy with — or add a note on anything you’d change.</div>';
+      if (!acc.length && !noted.length) html += '<div class="fb-empty">Tick “Looks good” on anything you’re happy with, or add a note on anything you’d change.</div>';
     } else {
       var ids = Object.keys(store.favs);
       if (ids.length) html += '<div class="fb-l">Saved ' + esc(NOUN) + 's (' + ids.length + ')</div>' + ids.map(function (id) {
@@ -150,7 +150,7 @@
           (f.note ? '<div class="fb-fnote">“' + esc(f.note) + '”</div>' : '') + '</div>'; }).join('');
       else html += '<div class="fb-empty">Tap the ♥ on any ' + esc(NOUN) + ' to save it here.</div>';
     }
-    // note about other pages already marked — so she trusts it all sends together
+    // note about other pages already marked, so she trusts it all sends together
     var others = readAll().filter(function (s) { return s.name !== KEYNAME && storeCount(s) > 0; });
     if (others.length) {
       html += '<div class="fb-other">Also sending your notes from: <b>' +
@@ -184,16 +184,16 @@
     document.getElementById('fb-close').onclick = function () { document.getElementById('fb-panel').hidden = true; };
     document.getElementById('fb-copy').onclick = function () {
       var txt = compileAll();
-      if (navigator.clipboard) navigator.clipboard.writeText(txt).then(function () { flash('Copied — paste it to Daniel'); }, fallbackCopy.bind(null, txt));
+      if (navigator.clipboard) navigator.clipboard.writeText(txt).then(function () { flash('Copied, paste it to Daniel'); }, fallbackCopy.bind(null, txt));
       else fallbackCopy(txt);
     };
     document.getElementById('fb-email').onclick = function () {
-      var subj = encodeURIComponent('Diana feedback — all review pages');
+      var subj = encodeURIComponent('Diana feedback, all review pages');
       var body2 = encodeURIComponent(compileAll());
       var gmail = 'https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=' + encodeURIComponent(MAILTO) + '&su=' + subj + '&body=' + body2;
       var w = window.open(gmail, '_blank');
       if (!w) location.href = 'mailto:' + MAILTO + '?subject=' + subj + '&body=' + body2;
-      else flash('Opened Gmail — just hit send');
+      else flash('Opened Gmail, just hit send');
     };
     document.getElementById('fb-clear').onclick = function () {
       if (!confirm('Clear everything you’ve marked on THIS page? (other pages are kept)')) return;
@@ -211,7 +211,7 @@
       if (acc.length) { lines.push('  ✓ Looks good: ' + acc.map(function (id) { return s.favs[id].name || id; }).join('; ')); }
       if (noted.length) { lines.push('  ✎ Comments:'); noted.forEach(function (id) { lines.push('     • ' + (s.favs[id].name || id) + ': ' + s.favs[id].note.trim()); }); }
     } else {
-      if (ids.length) { lines.push('  ♥ Saved ' + (s.mode === 'logos' ? 'logos' : 'items') + ':'); ids.forEach(function (id) { var f = s.favs[id]; lines.push('     • ' + (f.group ? f.group + ' / ' : '') + (f.name || id) + ' [' + id + ']' + (f.note ? ' — ' + f.note : '')); }); }
+      if (ids.length) { lines.push('  ♥ Saved ' + (s.mode === 'logos' ? 'logos' : 'items') + ':'); ids.forEach(function (id) { var f = s.favs[id]; lines.push('     • ' + (f.group ? f.group + ' / ' : '') + (f.name || id) + ' [' + id + ']' + (f.note ? ', ' + f.note : '')); }); }
     }
     if (s.general && s.general.trim()) { lines.push('  Overall: ' + s.general.trim()); }
     return lines;
@@ -222,7 +222,7 @@
     save();                                   // make sure current page is persisted first
     var all = readAll().filter(function (s) { return storeCount(s) > 0; });
     if (!all.length) return 'Diana’s feedback\n\n(nothing marked yet)';
-    var out = ['Diana’s feedback — across ' + all.length + ' page(s)', ''];
+    var out = ['Diana’s feedback, across ' + all.length + ' page(s)', ''];
     all.forEach(function (s) {
       out.push('=== ' + s.page + ' ===');
       out = out.concat(renderSection(s));
@@ -233,7 +233,7 @@
 
   function fallbackCopy(txt) {
     var ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); flash('Copied — paste it to Daniel'); } catch (e) { flash('Select all in the box and copy'); }
+    try { document.execCommand('copy'); flash('Copied, paste it to Daniel'); } catch (e) { flash('Select all in the box and copy'); }
     document.body.removeChild(ta);
   }
   function flash(msg) {
